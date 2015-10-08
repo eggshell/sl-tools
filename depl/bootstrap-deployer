@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# check for git repo supplied on CLI
+if [ "$#" -ne 2 ]; then
+    echo -e "Not enough args given. Please use the form:\n./bootstrap-deployer <service name> <git repo clone link>"
+    echo -e "Example:\n./bootstrap-deployer CullenTaylor https://github.com/USER/REPO"
+    exit
+fi
+
+# install prerequisite packages
+apt-get -y install python-pip python-dev libxml2-dev libxslt-dev libffi-dev git zlib1g-dev libssl-dev
+pip install virtualenvwrapper
+echo -e "export WORKON_HOME=$HOME/.virtualenvs\nexport PROJECT_HOME=/root/development\nsource /usr/local/bin/virtualenvwrapper.sh" >> /root/.bashrc
+
+# create virtual environment
+source ~/.bashrc
+
+if [ ! -d "/root/development" ]; then
+    mkdir /root/development
+fi
+
+cd /root/development
+mkdir $1; cd $1;
+mkvirtualenv $1; workon $1
+
+# clone git repo and install pip requirements
+git clone $2
+pip install -r ursula/requirements.txt
+
+# create ssl_certs
+mkdir ssl_certs; cd ssl_certs
+openssl req -new -key cert.key -out private.csr
+# NEED TO VERIFY THIS LINE! 
+echo "subjectAltName=DNS:*.open-test.ibmcloud.com, DNS:'$1'.open-test.ibmcloud.com, DNS: open-test.ibmcloud.com" > subAltName.ext
