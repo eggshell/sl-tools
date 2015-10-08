@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-for f in $(cat keys.txt); do
-    ssh-keygen -f "/root/.ssh/known_hosts" -R $f
-    ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$f"
-done
