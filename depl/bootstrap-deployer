@@ -31,3 +31,8 @@ pip install -r ursula/requirements.txt
 mkdir ssl_certs; cd ssl_certs
 openssl req -new -key cert.key -out private.csr
 echo "subjectAltName=DNS:*.open-test.ibmcloud.com, DNS:'$1'.open-test.ibmcloud.com, DNS: open-test.ibmcloud.com" > subAltName.ext
+openssl x509 -req -days 3650 -in private.csr -signkey cert.key -out cert.pem -extfile subAltName.ext
+openssl x509 -text -in cert.pem -noout
+
+echo -e "NEXT STEPS:\n===================="
+echo -e "- Copy the contents of cert.cert and cert.key into ursula/envs/example/standard/group_vars/all.yml\n- Change the hosts value at the top of the file to 'all' in ursula/playbooks/bootstrap_ml2_vxlan.yml"
