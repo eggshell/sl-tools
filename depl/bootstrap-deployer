@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# check for git repo supplied on CLI
+# check for service name and git repo supplied on CLI
 if [ "$#" -ne 2 ]; then
     echo -e "Not enough args given. Please use the form:\n./bootstrap-deployer <service name> <git repo clone link>"
     echo -e "Example:\n./bootstrap-deployer CullenTaylor https://github.com/USER/REPO"
@@ -30,5 +30,4 @@ pip install -r ursula/requirements.txt
 # create ssl_certs
 mkdir ssl_certs; cd ssl_certs
 openssl req -new -key cert.key -out private.csr
-# NEED TO VERIFY THIS LINE! 
 echo "subjectAltName=DNS:*.open-test.ibmcloud.com, DNS:'$1'.open-test.ibmcloud.com, DNS: open-test.ibmcloud.com" > subAltName.ext
