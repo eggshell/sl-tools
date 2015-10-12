@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# workaround for loading guest OS images since --copy-from in glance image-create is deprecated.
+
+if [ ! -d "/root/images/" ]; then
+  mkdir /root/images
+fi
+
+for LINK in cat $(links.txt); do
+    wget "$LINK" > /root/images/
+    IMG=${LINK##*/}
+    NAME=""; FILE="";
+
+    case "$IMG" in
+        "rhel-guest-image-6.5-20150401-x86_64.qcow2")
+            NAME="Red Hat Enterprise Linux 6.5 x86_64"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "rhel-guest-image-7.0-20150401-x86_64.qcow2")
+            NAME="Red Hat Enterprise Linux 7.0 x86_64"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "centos-guest-image-6.5-20150401-x86_64.qcow2")
+            NAME="CentOS 6.5 x86_64"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "centos-guest-image-7.0-20150401-x86_64.qcow2")
+            NAME="CentOS 6.7 x86_64"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "ubuntu-guest-image-12.04-20150618-x86_64.qcow2")
+            NAME="Ubuntu Server 12.04 LTS x86_64"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "ubuntu-guest-image-14.04-20150618-x86_64.qcow2")
+            NAME="Ubuntu Server 14.04 LTS x86_64"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "sles-guest-image-11sp3-20150415-x86_64.qcow2")
+            NAME="SUSE Linux Enterprise Server 11 SP3 x86_64"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "windows-guest-image-2008r2-standard-20150630-x86_64.qcow2")
+            NAME="Windows Server 2008 R2 SP1 Standard"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "windows-guest-image-2008r2-enterprise-20150630-x86_64.qcow2")
+            NAME="Windows Server 2008 R2 SP1 Enterprise"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "windows-guest-image-2008r2-datacenter-20150630-x86_64.qcow2")
+            NAME="Windows Server 2008 R2 SP1 Datacenter"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "windows-guest-image-2012r2-standard-20150630-x86_64.qcow2")
+            NAME="Windows Server 2012 R2 Standard"
+            FILE="/root/images/$NAME"
+            ;;
+
+        "windows-guest-image-2012r2-datacenter-20150630-x86_64.qcow2")
+            NAME="Windows Server 2012 R2 Datacenter"
+            FILE="/root/images/$NAME"
+            ;;
+
+    esac
+    # TODO: conditionals for each type of image related to disk and ram
+        # TODO : glance image create command within conditional
+done
