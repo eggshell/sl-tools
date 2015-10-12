@@ -74,4 +74,11 @@ for LINK in cat $(links.txt); do
     esac
     # TODO: conditionals for each type of image related to disk and ram
         # TODO : glance image create command within conditional
+
+    if [[ $NAME == *"Windows"* ]]; then
+        glance image-create --name="$NAME" --property build=20150829 --min-disk 25 --min-ram 2048 --disk-format=qcow2 --container-format=bare --file /root/images/$NAME --visibility public
+    else
+        glance image-create --name="$NAME" --property build=20150829 --min-disk 5 --min-ram 512 --disk-format=qcow2 --container-format=bare --file /root/images/$NAME --visibility public
+    fi
+
 done
