@@ -82,3 +82,6 @@ for LINK in cat $(links.txt); do
     fi
 
 done
+
+sleep 2m
+rm -rf /root/images
