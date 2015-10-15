@@ -7,73 +7,75 @@ if [ ! -d "/root/images/" ]; then
   mkdir /root/images
 fi
 
-for LINK in cat $(links.txt); do
-    wget "$LINK" > /root/images/
+for LINK in $(cat links.txt); do
+    echo $LINK
     IMG=${LINK##*/}
     NAME=""; FILE="";
 
     case "$IMG" in
         "rhel-guest-image-6.5-20150401-x86_64.qcow2")
             NAME="Red Hat Enterprise Linux 6.5 x86_64"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "rhel-guest-image-7.0-20150401-x86_64.qcow2")
             NAME="Red Hat Enterprise Linux 7.0 x86_64"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "centos-guest-image-6.5-20150401-x86_64.qcow2")
             NAME="CentOS 6.5 x86_64"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "centos-guest-image-7.0-20150401-x86_64.qcow2")
             NAME="CentOS 6.7 x86_64"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "ubuntu-guest-image-12.04-20150618-x86_64.qcow2")
             NAME="Ubuntu Server 12.04 LTS x86_64"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "ubuntu-guest-image-14.04-20150618-x86_64.qcow2")
             NAME="Ubuntu Server 14.04 LTS x86_64"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "sles-guest-image-11sp3-20150415-x86_64.qcow2")
             NAME="SUSE Linux Enterprise Server 11 SP3 x86_64"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "windows-guest-image-2008r2-standard-20150630-x86_64.qcow2")
             NAME="Windows Server 2008 R2 SP1 Standard"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "windows-guest-image-2008r2-enterprise-20150630-x86_64.qcow2")
             NAME="Windows Server 2008 R2 SP1 Enterprise"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "windows-guest-image-2008r2-datacenter-20150630-x86_64.qcow2")
             NAME="Windows Server 2008 R2 SP1 Datacenter"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "windows-guest-image-2012r2-standard-20150630-x86_64.qcow2")
             NAME="Windows Server 2012 R2 Standard"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
         "windows-guest-image-2012r2-datacenter-20150630-x86_64.qcow2")
             NAME="Windows Server 2012 R2 Datacenter"
-            FILE="/root/images/$NAME"
+            FILE="/root/images/$IMG"
             ;;
 
     esac
+
+    wget "$LINK" > /root/images/"$IMG"
 
     if [[ $NAME == *"Windows"* ]]; then
         glance image-create --name="$NAME" --property build=20150829 --min-disk 25 --min-ram 2048 --disk-format=qcow2 --container-format=bare --file $FILE --visibility public
@@ -84,4 +86,5 @@ for LINK in cat $(links.txt); do
 done
 
 sleep 2m
+cd /root
 rm -rf /root/images
