@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# workaround for loading guest OS images since --copy-from in glance image-create is deprecated.
-# and --is-public is replaced by --visibility
 
-
-for LINK in cat $(links.txt); do
+for LINK in $(cat links.txt); do
     IMG=${LINK##*/}
     NAME=""; 
 
