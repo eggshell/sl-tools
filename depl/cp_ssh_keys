@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for f in $(cat ip_list.txt); do
-    ssh-keygen -f "/root/.ssh/known_hosts" -R $f
-    ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$f"
+for i in $(cat /root/.ssh/config | grep Host | grep -v HostName | awk '{ print $2 }'); do
+    ssh-keygen -f "/root/.ssh/known_hosts" -R $i
+    ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$i"
 done
