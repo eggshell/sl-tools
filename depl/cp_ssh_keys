@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-for i in $(cat ~/.ssh/config | grep Host | grep -v HostName | awk '{ print $2 }'); do
+for i in $(cat ~/.ssh/config | grep Host | grep HostName | awk '{ print $2 }'); do
     ssh-keygen -f "/root/.ssh/known_hosts" -R $i
     ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$i"
-    # Test connectivity
+done
+
+# Test connectivity
+for i in $(cat ~/.ssh/config | grep Host | grep -v HostName | awk '{ print $2 }'); do
     echo "Test ssh to $i"; ssh $i "exit"; 
 done
