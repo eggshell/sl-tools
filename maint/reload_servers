@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for i in $(cat ~/.ssh/config | grep Host | grep HostName | awk '{ print $2 }'); do
+    ID=$(slcli server detail $i | grep id | grep -v guid | awk '{ print $2 }')
+    ./reload.expect $i $ID
+done

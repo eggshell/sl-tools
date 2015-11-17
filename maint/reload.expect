@@ -1,0 +1,8 @@
+#!/usr/bin/expect -f
+
+set ip [lindex $argv 0];
+set id [lindex $argv 1];
+
+spawn slcli server reload $i
+expect "or press Enter to abort:"
+send "$id\n"
