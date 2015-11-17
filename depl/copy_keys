@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 
+# check requirements
+if dpkg -s "expect" 2>/dev/null 1>/dev/null; then 
+    echo "not installed"
+else
+    apt-get install expect -y
+fi
+
 for i in $(cat ~/.ssh/config | grep Host | grep HostName | awk '{ print $2 }'); do
     ssh-keygen -f "/root/.ssh/known_hosts" -R $i
-    ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$i"
-    PASSWORD = slcli server credentials $i | awk -F '  ' '{ print $2 }'
-    expect "(yes/no):"; send "yes\n";
-    expect "Password:"; send "$PASSWORD\n";
+    #ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$i"
+    PASSWORD=$(slcli server credentials $i | awk -F '  ' '{ print $2 }')
+    ./login.expect $i $PASSWORD
 done
 
 # Test connectivity
 for i in $(cat ~/.ssh/config | grep Host | grep -v HostName | awk '{ print $2 }'); do
-    echo "Test ssh to $i"; ssh $i "exit"; 
+    echo "Test ssh to $i"; ssh $i "exit";
 done
