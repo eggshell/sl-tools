@@ -3,6 +3,9 @@
 for i in $(cat ~/.ssh/config | grep Host | grep HostName | awk '{ print $2 }'); do
     ssh-keygen -f "/root/.ssh/known_hosts" -R $i
     ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$i"
+    PASSWORD = slcli server credentials $i | awk -F '  ' '{ print $2 }'
+    expect "(yes/no):"; send "yes\n";
+    expect "Password:"; send "$PASSWORD\n";
 done
 
 # Test connectivity
