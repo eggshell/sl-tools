@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # check requirements
-if dpkg -s "expect" 2>/dev/null 1>/dev/null; then 
+if dpkg -s "expect" &>/dev/null; then 
     echo "not installed"
 else
     apt-get install expect -y
