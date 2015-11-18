@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
 
-# check requirements
-if dpkg -s "expect" &>/dev/null; then 
-    echo "not installed"
-else
-    apt-get install expect -y
-fi
-
 for i in $(cat ~/.ssh/config | grep Host | grep HostName | awk '{ print $2 }'); do
     ssh-keygen -f "/root/.ssh/known_hosts" -R $i
     #ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$i"
-    PASSWORD=$(slcli server credentials $i | awk -F '  ' '{ print $2 }')
-    ./login.expect $i $PASSWORD
+    export SSHPASS=$(slcli server credentials $i | awk -F '  ' '{ print $2 }')
+    sshpass -e ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@${i} 
 done
 
 # Test connectivity
