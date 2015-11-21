@@ -2,7 +2,6 @@
 
 for i in $(cat ~/.ssh/config | grep Host | grep HostName | awk '{ print $2 }'); do
     ssh-keygen -f "/root/.ssh/known_hosts" -R $i
-    #ssh-copy-id -i ~/.ssh/id_rsa.pub root@"$i"
     export SSHPASS=$(slcli server credentials $i | awk -F '  ' '{ print $2 }')
     sshpass -e ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@${i} 
 done
