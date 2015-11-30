@@ -5,11 +5,12 @@ if [ ! -f /root/.softlayer ]; then
     exit
 fi
 
+USER=$(cat .softlayer | grep username | awk '{ print $3 }')
+KEY=$(cat .softlayer | grep api_key | awk '{ print $3 }')    
+
 for i in $(cat ~/.ssh/config | grep Host | grep controller | grep -v HostName | awk '{ print $2 }'); do
     ID=$(slcli server detail $i | grep id | grep -v guid | awk '{ print $2 }')
-    USER=$(cat .softlayer | grep username | awk '{ print $3 }')
-    KEY=$(cat .softlayer | grep api_key | awk '{ print $3 }')    
-
+    
     curl -X POST -i -H "Content-type: application/json" -X POST
     https://$USER:$KEY@api.softlayer.com/rest/v3/SoftLayer_Network_Component/$ID/addNetworkVlanTrunks -d '
         {
