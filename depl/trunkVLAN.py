@@ -32,7 +32,7 @@ bootstrap_hosts = []
 for server in servers:
     found = False
     found = any(keyword in server['hostname'].upper() for keyword in keywords)
-    if boolean == True:
+    if found == True:
         bootstrap_hosts.append(server)
 
 for host in bootstrap_hosts:
