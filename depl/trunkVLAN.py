@@ -26,13 +26,11 @@ for vlan in vlans:
 
 # find correct servers to open VLAN trunk to
 servers = hw_mgr.list_hardware(mask=hw_mask)
-keywords = ['CONTROLLER', 'CTL', 'KVM01', 'KVM02', 'KVM001', 'KVM002', 'KVM1', 'KVM2', 'QKR', 'VYATTA', 'MGW']
+server_names = ['CONTROLLER', 'CTL', 'KVM01', 'KVM02', 'KVM001', 'KVM002', 'KVM1', 'KVM2', 'QKR', 'VYATTA', 'MGW']
 bootstrap_hosts = []
 
 for server in servers:
-    found = False
-    found = any(keyword in server['hostname'].upper() for keyword in keywords)
-    if found == True:
+    if server['hostname'].upper() in server_names:
         bootstrap_hosts.append(server)
 
 for host in bootstrap_hosts:
