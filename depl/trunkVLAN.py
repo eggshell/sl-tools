@@ -30,8 +30,9 @@ server_names = ['CONTROLLER', 'CTL', 'KVM01', 'KVM02', 'KVM001', 'KVM002', 'KVM1
 bootstrap_hosts = []
 
 for server in servers:
-    if server['hostname'].upper() in server_names:
-        bootstrap_hosts.append(server)
+    for name in server_names:
+        if name in server['hostname'].upper():
+            bootstrap_hosts.append(server)
 
 for host in bootstrap_hosts:
     nics  = hw_mgr.get_hardware(host["id"],mask=nics_mask)
