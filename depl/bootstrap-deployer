@@ -15,11 +15,11 @@ echo -e "export WORKON_HOME=$HOME/.virtualenvs\nexport PROJECT_HOME=/root/develo
 # create virtual environment
 source ~/.bashrc
 
-if [ ! -d "/root/development" ]; then
-    mkdir /root/development
+if [ ! -d "/root/deployment" ]; then
+    mkdir /root/deployment
 fi
 
-cd /root/development
+cd /root/deployment
 mkdir $1; cd $1;
 mkvirtualenv $1; workon $1
 
@@ -28,4 +28,5 @@ git clone $2
 pip install -r ursula/requirements.txt
 
 echo -e "NEXT STEPS:\n===================="
-echo -e "- Copy the contents of cert.cert and cert.key into ursula/envs/example/standard/group_vars/all.yml\n- Change the hosts value at the top of the file to 'all' in ursula/playbooks/bootstrap_ml2_vxlan.yml"
+echo -e "- Create self-signed certificates for your environment\n"
+echo -e "- Copy the contents of cert.cert and cert.key into ursula/envs/example/standard/group_vars/all.yml\n"
