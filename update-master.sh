@@ -9,6 +9,11 @@
 
 echo "Updating your master branch with upstream"
 
+if [[ -z $(git remote -v | grep upstream | grep CullenTaylor) ]]; then
+    echo "Please add a remote branch called upstream that points to git@github.com:CullenTaylor/sl-tools.git"
+    exit 1
+fi
+
 git checkout master
 git fetch upstream
 git merge upstream/master
