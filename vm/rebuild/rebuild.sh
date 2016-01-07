@@ -37,7 +37,7 @@ do
   fi
 done
 
-# the biz
+# Allow for unauthenticated packages
 for arg in "$@"
 do
   if [[ "$arg" != "-p" ]]; then

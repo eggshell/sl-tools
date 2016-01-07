@@ -1,0 +1,6 @@
+#!!/usr/bin/env bash
+
+#prepare baremetals for ursula deploy
+for i in $(cat ~/.ssh/config | grep Host | grep HostName | awk '{ print $2 }'); do
+    ssh $i 'echo \"APT::Get::AllowUnauthenticated \"true\";\" >> /etc/apt/apt.conf.d/99myauth; apt-get update; parted /dev/sdb --script rm 1'
+done
