@@ -26,16 +26,16 @@ for server in $SERVERS; do
 
     if  $(grep -q "ceph" <<< "$HOSTNAME"); then
         CEPH_COUNT=$((CEPH_COUNT+1))
-        printf "Host compute$CEPH_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+        printf "Host ceph$CEPH_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
     fi
 
     if  $(grep -q "cpm" <<< "$HOSTNAME"); then
         CPM_COUNT=$((CPM_COUNT+1))
-        printf "Host compute$CPM_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+        printf "Host cpm$CPM_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
     fi
 
     if  $(grep -q "swift" <<< "$HOSTNAME"); then
         SWIFT_COUNT=$((SWIFT_COUNT+1))
-        printf "Host compute$SWIFT_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+        printf "Host swiftnode$SWIFT_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
     fi
 done
