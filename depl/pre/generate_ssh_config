@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# usage:    ./generate_ssh_config DATACENTER
+# example:  ./generate_ssh_config mex01
+# dependencies: have softlayer api installed and configured
+
+DATACENTER=$1
+CTL_COUUNT=0
+COMPUTE_COUNT=0
+CEPH_COUNT=0
+CPM_COUNT=0
+SWIFT_COUNT=0
+SERVERS=$(slcli server list | grep "$DATACENTER" | awk '{ print $4 }')
+
+for server in $SERVERS; do
+    HOSTNAME=$(slcli server detail $server | grep hostname | cut -d' ' -f5)
+    if $(grep -q "controller" <<< "$HOSTNAME"); then
+        CTL_COUNT=$((CTL_COUNT+1))
+        printf "Host controller$CTL_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+    fi
+
+    if  $(grep -q "compute" <<< "$HOSTNAME"); then
+        COMPUTE_COUNT=$((COMPUTE_COUNT+1))
+        printf "Host compute$COMPUTE_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+    fi
+
+    if  $(grep -q "ceph" <<< "$HOSTNAME"); then
+        CEPH_COUNT=$((CEPH_COUNT+1))
+        printf "Host compute$CEPH_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+    fi
+
+    if  $(grep -q "cpm" <<< "$HOSTNAME"); then
+        CPM_COUNT=$((CPM_COUNT+1))
+        printf "Host compute$CPM_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+    fi
+
+    if  $(grep -q "swift" <<< "$HOSTNAME"); then
+        SWIFT_COUNT=$((SWIFT_COUNT+1))
+        printf "Host compute$SWIFT_COUNT\n  HostName $server\n  User root\n  IdentityFile ~/.ssh/id_rsa\n\n" >> config.txt
+    fi
+done
