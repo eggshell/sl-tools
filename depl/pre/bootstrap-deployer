@@ -2,9 +2,9 @@
 
 # check for service name and git repo supplied on CLI
 if [ "$#" -ne 2 ]; then
-    echo -e "Not enough args given. Please use the form:\n./bootstrap-deployer <service name> <git repo clone link>"
-    echo -e "Example:\n./bootstrap-deployer CullenTaylor https://github.com/USER/REPO"
-    exit
+  echo -e "Not enough args given. Please use the form:\n./bootstrap-deployer <service name> <git repo clone link>"
+  echo -e "Example:\n./bootstrap-deployer CullenTaylor https://github.com/USER/REPO"
+  exit
 fi
 
 # install prerequisite packages
@@ -16,7 +16,7 @@ echo -e "export WORKON_HOME=$HOME/.virtualenvs\nexport PROJECT_HOME=/root/develo
 source ~/.bashrc
 
 if [ ! -d "/root/deployment" ]; then
-    mkdir /root/deployment
+  mkdir /root/deployment
 fi
 
 cd /root/deployment
